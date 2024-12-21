@@ -1,0 +1,6 @@
+.toast-custom-position {
+    position: fixed;
+    bottom: 50px; /* Distance du bas */
+    left: 20px;   /* Distance de la gauche */
+    z-index: 1050; /* Assurez-vous que la notification est au-dessus des autres éléments */
+  }

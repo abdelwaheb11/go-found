@@ -1,0 +1,63 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f8f9fa; /* Light grey hover effect */
+  }
+  
+  .table th, .table td {
+    text-align: center; /* Center align text */
+    vertical-align: middle; /* Center align content vertically */
+  }
+  
+  .table-actions button {
+    width: 80px;
+  }
+  /* Custom style for search bar */
+.row.mb-3 {
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .form-control {
+    border-radius: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-select {
+    border-radius: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-danger {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .text-danger:hover {
+    color: #dc3545;
+  }
+  
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  .bg-success {
+    padding: 6px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .bg-success:hover {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  @media (max-width: 767px) {
+    .col-md-1 {
+      display: none;
+    }
+  }
+  

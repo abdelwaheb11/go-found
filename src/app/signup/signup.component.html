@@ -1,0 +1,124 @@
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="row shadow-lg rounded-3 overflow-hidden w-75">
+        <!-- Left Section: Image and Text -->
+        <div class="col-md-6 p-0">
+            <div class="h-100" style="background: url('assets/register.jpg') center center / cover;">
+                <div class="p-4 text-success h5 fw-bold" style="position: relative; width: 95%;">
+                    <p style="position: absolute; bottom: -30px;">By continuing you indicate that you read and agreed to the Terms of Use.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section: Form -->
+        <div class="col-md-6 p-5 bg-white">
+            <h2 class="text-success fw-bold">GoFound</h2>
+            <p class="text-end">Have an account? <a routerLink="/login" class="text-success fw-bold">Log in!</a></p>
+            <h3 class="fw-bold">Get Started With MAKER</h3>
+            <p>Getting started is easy</p>
+
+            
+
+            <!-- Signup Form -->
+            <form (ngSubmit)="register()" #signupForm="ngForm">
+                <div *ngIf="error" class="alert alert-danger text-center">
+                  {{ msgError }}
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Username"
+                    required
+                    [(ngModel)]="username"
+                    name="username"
+                    #usernameInput="ngModel"
+                  />
+                  <div *ngIf="usernameInput.invalid && usernameInput.touched" class="text-danger">
+                    Username is required.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Enter Email"
+                    required
+                    [(ngModel)]="email"
+                    name="email"
+                    #emailInput="ngModel"
+                  />
+                  <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">
+                    Valid email is required.
+                  </div>
+                </div>
+                <div class="mb-3 position-relative">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                    [(ngModel)]="password"
+                    name="password"
+                    #passwordInput="ngModel"
+                  />
+                  <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+                    Password is required.
+                  </div>
+                  <i class="bi bi-eye position-absolute end-0 me-3 top-50 translate-middle-y"></i>
+                </div>
+                <div class="mb-3 position-relative">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Confirm Password"
+                    required
+                    [(ngModel)]="confirmPassword"
+                    name="confirmPassword"
+                    #confirmPasswordInput="ngModel"
+                  />
+                  <div
+                    *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched"
+                    class="text-danger"
+                  >
+                    Confirmation password is required.
+                  </div>
+                  <i class="bi bi-eye position-absolute end-0 me-3 top-50 translate-middle-y"></i>
+                </div>
+                <div class="mb-3 d-flex gap-3">
+                  <span class="fw-bold">Choose your role:</span>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="flexRadioDefault1"
+                      [(ngModel)]="role"
+                      value="Project Creator"
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Project Creator
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="role"
+                      id="flexRadioDefault2"
+                      [(ngModel)]="role"
+                      value="Investor"
+                      checked
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Investor
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-success w-100 mt-5" [disabled]="signupForm.invalid">
+                  Create Account
+                </button>
+              </form>
+              
+        </div>
+    </div>
+</div>

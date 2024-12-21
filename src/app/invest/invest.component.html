@@ -1,0 +1,76 @@
+<div class="investment-container w-75 mx-auto my-5">
+    <h2 class="text-center title" routerLink="/project/{{project.id}}" style="cursor: pointer;">Invest in {{ project.title }}</h2>
+  
+    <!-- Formulaire pour ajouter un investissement -->
+    <form class="investment-form">
+        <div class="alert alert-warning text-center fw-bold" *ngIf="(project.goal_amount - project.raised_amount) <= 0">
+            <i class="bi bi-exclamation-triangle-fill h3"></i> The project goal has been reached. No further investments can be made.
+          </div>
+          
+        <div class="alert alert-danger text-center fw-bold" *ngIf="error">
+            {{msgError}}
+        </div>
+      <div class="form-group mb-3">
+        <label for="amount" class="form-label fw-bold">Investment Amount ($)</label>
+        <input
+          type="number"
+          id="amount"
+          class="form-control"
+          [(ngModel)]="investmentAmount"
+          name="amount"
+          [min]="1"
+          [max]="project.goal_amount - project.raised_amount"
+          placeholder="Enter investment amount"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary fw-bold w-100" [disabled]="(project.goal_amount - project.raised_amount) <= 0" (click)="addInvestment()">
+        <i class="bi bi-wallet2"></i> Invest Now
+      </button>
+    </form>
+    <div class="mb-4">
+        <h5 class="fw-bold">Funding</h5>
+        <div class="d-flex justify-content-between">
+          <span>Raised: ${{ project.raised_amount }}</span>
+          <span>Goal: ${{ project.goal_amount }}</span>
+        </div>
+        <div class="progress mt-2" style="height: 20px;">
+          <div class="progress-bar bg-success" 
+               role="progressbar" 
+               [style.width]="(project.raised_amount / project.goal_amount * 100) + '%'" 
+               [attr.aria-valuenow]="project.raised_amount" 
+               aria-valuemin="0" 
+               [attr.aria-valuemax]="project.goal_amount">
+          </div>
+        </div>
+        <div class="text-center mt-2 text-muted">
+          {{ ((project.raised_amount / project.goal_amount) * 100).toFixed(1) }}% Funded
+        </div>
+      </div>
+  
+    <!-- Liste des investissements -->
+    <h3 class="mt-5">History of Investments</h3>
+    <div *ngIf="project.investment && project.investment.length > 0; else noInvestments" class="investment-list">
+      <div *ngFor="let investment of project.investment" class="investment-card p-3 mb-3 bg-light rounded">
+        <div class="investment-details">
+            <div class="d-flex gap-2">
+                <img [src]="imageservice.getimageUser(investment.investor.image)" width="50" height="50" class="rounded-circle">
+                <div>
+                  <h6 class="mb-0" routerLink="/detail/{{project.creator.user.username}}" style="cursor: pointer;">
+                    {{ investment.investor.user.first_name | uppercase }} {{ investment.investor.user.last_name | uppercase }}
+                    <span class="text-secondary">({{investment.investor.role}})</span>
+                  </h6>
+                </div>
+              </div>
+          <p class="mb-1"><strong>Amount:</strong> ${{ investment.amount | number: '1.2-2' }}</p>
+          <p class="mb-1"><strong>Date:</strong> {{ investment.created_at | date: 'medium' }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Message si aucun investissement -->
+    <ng-template #noInvestments>
+      <p class="text-center text-muted mt-3">No investments made yet for this project.</p>
+    </ng-template>
+  </div>
+  

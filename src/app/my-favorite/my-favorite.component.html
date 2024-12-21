@@ -1,0 +1,29 @@
+<div class="container my-5">
+    <h2 class="text-center mb-5 text-success">My Favorite Projects</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let project of project">
+        <div class="card creative-card shadow-lg">
+          <div class="image-container">
+            <img 
+              [src]="imageService.getimageProject(project.images?.[0]?.image)"
+              alt="{{ project.title }}" 
+              class="card-img-top"
+            >
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-uppercase">{{ project.title }}</h5>
+            <p class="card-text text-muted">{{ project.description }}</p>
+            <span class="card-text fw-bold">${{ project.raised_amount | number }}</span> <br>
+            <span class="text-success fw-bold">Goal: ${{ project.goal_amount | number }}</span>
+            <div class="d-flex justify-content-between mt-4">
+              <a routerLink="/project/{{project.id}}" class="btn btn-outline-primary btn-sm">View Project</a>
+              <button class="btn btn-outline-danger btn-sm" (click)="removeFavorite(project.id)">
+                <i class="bi bi-trash"></i> Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

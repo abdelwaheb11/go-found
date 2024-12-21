@@ -1,0 +1,132 @@
+  <!-- Main Content -->
+  <div class="container-fluid px-4 py-4">
+  
+    <!-- Category Filters (Centered) -->
+   
+    
+    
+
+    <div class=" row" >
+      <!-- Top Creators Section -->
+       <div class="col-6">
+          <h4 class=" mt-2">Top Creators</h4>
+          <div class="scroll-container position-relative">
+            <div class="scroll-wrapper" id="creatorsScroll">
+              <div *ngFor="let creator of topCreators" class="cardbox card shadow mx-2">
+                <div class="w-100" style="background-color:  #858b86cc;;">
+                  <img [src]="imageService.getimageUser(creator.image)" class="card-img-top mx-auto" alt="Investor Image">
+                </div>
+                <div class="card-body text-center" >
+                  
+                  <a class="card-title fw-bold " style="font-size: 15px;" routerLink="/detail/{{creator.user.username}}">{{ creator.user.first_name | uppercase }} {{ creator.user.last_name | uppercase }}</a>
+                  <p class="card-text text-muted" style="font-size: 10px;">Total Projects: <span class="fw-bold">{{ creator.project_count }}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+       </div>
+      
+      
+      <!-- Top Investors Section -->
+       <div class="col-6">
+        <h4 class="mt-2">Top Investors</h4>
+        <div class="scroll-container position-relative">
+          <div class="scroll-wrapper" id="investorsScroll">
+            <div *ngFor="let investor of topInvestors" class="cardbox card shadow mx-2">
+              <div  class="w-100" style="background-color:  #858b86cc;">
+                <img [src]="imageService.getimageUser(investor.image)" class="card-img-top mx-auto" alt="Investor Image">
+              </div>
+              
+              <div class="card-body text-center">
+                <a class="card-title fw-bold " style="font-size: 15px;" routerLink="/detail/{{investor.user.username}}">{{ investor.user.first_name | uppercase }} {{ investor.user.last_name | uppercase }}</a>
+                <p class="card-text text-muted " style="font-size: 10px;">Total Investment: <span class="fw-bold">${{ investor.total_investment }}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+      
+    </div>
+
+
+
+    <div class="d-flex justify-content-center mb-4 flex-wrap">
+      <button 
+        class="btn btn btn-outline-dark me-2 mb-2 fw-bold"
+        [class.text-white]="category==='all'"  [class.btn-dark]="category==='all'" 
+        (click)="getallproject()"> All...
+      </button>
+      <button 
+        class="btn btn-outline-dark me-2 mb-2 fw-bold"
+        *ngFor="let c of categories"
+        (click)="filterByCategory(c)"
+        [class.btn-dark]="c===category"
+        [class.text-white]="c===category"
+        >
+        {{ c | uppercase }}
+      </button>
+    </div>
+  
+    <!-- Sorting Filters (Aligned to Right) -->
+    <div class="d-flex justify-content-end mb-4">
+      <button 
+        class="btn btn-outline-success me-2 fw-bold" 
+        *ngFor="let s of sortOptions ; let i=index"
+        (click)="sortProjects(i)"
+        [class.btn-success]="i===sort"
+        [class.text-white]="i===sort"
+      >
+        {{ s }}
+      </button>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="row container mx-auto">
+      <div class="col-md-4 mb-4" *ngFor="let project of projects; let index = index">
+        <div class="card creative-card shadow-lg">
+          <div class="image-container">
+            <img [src]="imageService.getimageProject(null)" style="height: 300px;" *ngIf="!project.images?.length">
+            <div [id]="'imageCarousel' + index" class="carousel slide h-100" data-bs-ride="carousel" *ngIf="project.images">
+              <!-- Images -->
+              <div class="carousel-inner">
+                <div
+                  *ngFor="let img of project.images; let i = index"
+                  class="carousel-item"
+                  [ngClass]="{ 'active': i === 0 }">
+                  <img
+                    [src]="imageService.getimageProject(img.image)"
+                    alt="Project Image {{ i + 1 }}"
+                    class="w-100 object-fit-cover"
+                    style="height: 300px;">
+                </div>
+              </div>
+              <!-- Controls (Optional) -->
+              <button *ngIf="project.images.length" class="carousel-control-prev" type="button" [attr.data-bs-target]="'#imageCarousel' + index" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button  *ngIf="project.images.length" class="carousel-control-next" type="button" [attr.data-bs-target]="'#imageCarousel' + index" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-uppercase">{{ project.title }}</h5>
+            <p class="card-text text-muted">{{ project.description }}</p>
+            <span class="card-text fw-bold">${{ project.raised_amount | number }}</span><br>
+            <span class="text-success fw-bold">Goal: ${{ project.goal_amount | number }}</span>
+            <div class="d-flex justify-content-end mt-4">
+              <a routerLink="/project/{{ project.id }}" class="btn btn-outline-primary fw-bold">View Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  
+    
+    
+  </div>
+  

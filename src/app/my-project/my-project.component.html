@@ -1,0 +1,87 @@
+<div class="container mt-5">
+    <h1 class="text-center mb-5 fw-bold text-success">My Projects</h1>
+  
+    <!-- Search bar -->
+    <!-- Search bar -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+        <input
+            type="text"
+            class="form-control"
+            placeholder="Search Projects..."
+            [(ngModel)]="searchText"
+            (input)="filterProjects()"
+        />
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+        <select 
+            id="category" 
+            class="form-select"
+            name="category" 
+            [(ngModel)]="category" 
+            (change)="filterProjectsbycategory()">
+            <option value="0" selected>Select a category</option>
+            <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
+        </select>
+        </div>
+        <div class="col-md-1 d-flex align-items-center justify-content-center">
+        <span class="text-danger cursor-pointer" (click)="claerfilter()">
+            <i class="bi bi-x-circle-fill"></i> Clear
+        </span>
+        </div>
+  </div>
+  
+  
+    <!-- Table -->
+    <table class="table table-bordered table-hover">
+      <thead class="table-success">
+        <tr>
+          <th>#</th>
+          <th (click)="sortTable('title')" style="cursor: pointer">
+            Project Name
+            <i [ngClass]="getSortIcon('title')"></i>
+          </th>
+          <th (click)="sortTable('category')" style="cursor: pointer">
+            Project Category
+            <i [ngClass]="getSortIcon('category')"></i>
+          </th>
+          <th (click)="sortTable('description')" style="cursor: pointer">
+            Description
+            <i [ngClass]="getSortIcon('description')"></i>
+          </th>
+          <th (click)="sortTable('goal_amount')" style="cursor: pointer">
+            Goal Amount
+            <i [ngClass]="getSortIcon('goal_amount')"></i>
+          </th>
+          <th (click)="sortTable('raised_amount')" style="cursor: pointer">
+            Raised Amount
+            <i [ngClass]="getSortIcon('raised_amount')"></i>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of filteredProjects; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ project.title }}</td>
+          <td>{{ project.category }}</td>
+          <td>{{ project.description }}</td>
+          <td>{{ project.goal_amount | currency }}</td>
+          <td>{{ project.raised_amount | currency }}</td>
+          <td>
+            <button class="btn btn-info btn-sm me-2" routerLink="/project/{{project.id}}">
+              <i class="bi bi-eye"></i> View
+            </button>
+            <button class="btn btn-warning btn-sm me-2" routerLink="/updateProject/{{project.id}}">
+              <i class="bi bi-pencil"></i> Update
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteProject(project.id , project.title)">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

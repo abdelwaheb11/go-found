@@ -1,0 +1,47 @@
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="row shadow-lg rounded-3 overflow-hidden w-75">
+        <!-- Left Section: Form -->
+        <div class="col-md-6 p-5 bg-white">
+            <h2 class="text-success fw-bold">GoFound</h2>
+            <p class="text-end">Don't have an account? <a routerLink="/signup" class="text-success fw-bold">Sign up!</a></p>
+            <h3 class="fw-bold">Welcome Back</h3>
+            <p>Login into your account</p>
+
+            
+
+            <!-- Login Form -->
+            <form class="py-5">
+                <div *ngIf="error" class="alert alert-danger text-center">
+                    {{msgError}}
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="username" [(ngModel)]="username" placeholder="Email" required>
+                </div>
+                <div class="mb-3 position-relative">
+                    <input type="password" class="form-control" name="passworrd" [(ngModel)]="password" placeholder="Password" required>
+                    <i class="bi bi-eye position-absolute end-0 me-3 top-50 translate-middle-y"></i>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    <a href="#" class="text-danger">Recover Password</a>
+                </div>
+                
+
+            
+                <button type="submit" class="btn btn-success w-100 mt-5" (click)="login()">Log In</button>
+            </form>
+        </div>
+
+        <!-- Right Section: Image and Text -->
+        <div class="col-md-6 p-0">
+            <div class="h-100" style="background: url('assets/login.jpg') center center / cover;">
+                <div class="p-4 text-success fw-bold h5" style="position: relative; width: 95%;">
+                    <p style="position: absolute; top: 500px; ">Today, we create innovative solutions to the challenges that consumers face in both their everyday lives and events.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

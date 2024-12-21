@@ -1,0 +1,134 @@
+<div class="row py-5 px-4">
+  <div class="col-md-8 mx-auto">
+    <div class="bg-white shadow rounded overflow-hidden">
+      
+      <!-- Header du profil -->
+      <div class="px-4 pt-0 pb-4 cover">
+        <div class="media align-items-end profile-head">
+          <div class="profile mr-3 d-flex gap-3 mb-3">
+            <img [src]="imageservice.getimageUser(user.image)" width="150" class="rounded mb-2 img-thumbnail">
+            <div class="media-body mb-5 text-white">
+              <h4 class="mt-0 mb-0">{{ user.user.first_name | uppercase }} {{ user.user.last_name | uppercase }}</h4>
+              <p class="small mb-4">
+                <i class="fas fa-map-marker-alt mr-2"></i>{{ user.role | uppercase }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Statistiques de profil -->
+       <div class="py-4 mt-3" >
+        
+      </div>
+      
+       </div>
+      
+      <!-- Section "À propos" -->
+      <div class="px-4 py-3">
+        <h5 class="mb-0">About</h5>
+        <div class="p-4 rounded shadow-sm bg-light">
+          <p class="font-italic mb-0">
+            {{user.desc}}
+          </p>
+        </div>
+      </div>
+      
+      <!-- Photos récentes -->
+      <div class="py-4 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0" *ngIf="user.role==='creator'">All Projects</h5>
+          <h5 class="mb-0" *ngIf="user.role==='investor'">All Invests</h5>
+        </div>
+        <div class="row">
+            <div *ngFor="let project of project ; let index = index" class="col-lg-6 mb-2 pr-lg-1 g-4">
+              
+                  <div class="card creative-card shadow-lg" *ngIf="user.role==='creator'">
+                    <div class="image-container">
+                      <img [src]="imageservice.getimageProject(null)" style="height: 300px;" *ngIf="!project.images?.length">
+                      <div [id]="'imageCarousel' + index" class="carousel slide h-100" data-bs-ride="carousel" *ngIf="project.images">
+                        <!-- Images -->
+                        <div class="carousel-inner">
+                          <div
+                            *ngFor="let img of project.images; let i = index"
+                            class="carousel-item"
+                            [ngClass]="{ 'active': i === 0 }">
+                            <img
+                              [src]="imageservice.getimageProject(img.image)"
+                              alt="Project Image {{ i + 1 }}"
+                              class="w-100 object-fit-cover"
+                              style="height: 300px;">
+                          </div>
+                        </div>
+                        <!-- Controls (Optional) -->
+                        <button *ngIf="project.images.length" class="carousel-control-prev" type="button" [attr.data-bs-target]="'#imageCarousel' + index" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button  *ngIf="project.images.length" class="carousel-control-next" type="button" [attr.data-bs-target]="'#imageCarousel' + index" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-uppercase">{{ project.title }}</h5>
+                      <p class="card-text text-muted">{{ project.description }}</p>
+                      <span class="card-text fw-bold">${{ project.raised_amount | number }}</span> <br>
+                      <span class="text-success fw-bold">Goal: ${{ project.goal_amount | number }}</span>
+                      <div class="d-flex justify-content-end mt-4">
+                        <a routerLink="/project/{{project.id}}" class="btn btn-outline-primary fw-bold ">View Project</a>
+                        
+                      </div>
+                   
+                </div>
+              </div>
+              
+              <div class="card creative-card shadow-lg" *ngIf="user.role==='investor'">
+                <div class="card-body position-relative">
+                  <div class="image-container">
+                    <img [src]="imageservice.getimageProject(null)" style="height: 300px;" *ngIf="!project.images?.length">
+                      <div [id]="'imageCarousel' + index" class="carousel slide h-100" data-bs-ride="carousel" *ngIf="project.images">
+                        <!-- Images -->
+                        <div class="carousel-inner">
+                          <div
+                            *ngFor="let img of project.images; let i = index"
+                            class="carousel-item"
+                            [ngClass]="{ 'active': i === 0 }">
+                            <img
+                              [src]="imageservice.getimageProject(img.image)"
+                              alt="Project Image {{ i + 1 }}"
+                              class="w-100 object-fit-cover"
+                              style="height: 300px;">
+                          </div>
+                        </div>
+                        <!-- Controls (Optional) -->
+                        <button *ngIf="project.images.length" class="carousel-control-prev" type="button" [attr.data-bs-target]="'#imageCarousel' + index" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button  *ngIf="project.images.length" class="carousel-control-next" type="button" [attr.data-bs-target]="'#imageCarousel' + index" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                  <h5 class="card-title fw-bold text-primary">{{ project.project.title }}</h5>
+                  <p class="card-text text-muted">{{ project.project.description }}</p>
+                  <p class="card-text">
+                    <span class="badge bg-success text-white">Amount: {{ project.amount }}</span>
+                  </p>
+                  <p class="card-text">
+                    <small class="text-secondary">Invested on: {{ project.created_at | date: 'medium' }}</small>
+                  </p>
+                  <div class="d-flex justify-content-end">
+                    <a [routerLink]="['/project', project.project.id]" class="btn btn-outline-primary fw-bold  mt-2 ">View Project</a>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+

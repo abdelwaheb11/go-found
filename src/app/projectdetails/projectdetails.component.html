@@ -1,0 +1,196 @@
+<div class="container mt-1 mb-5">
+  <div class="row shadow-lg rounded-4 overflow-hidden py-0">
+    <!-- Images Section (Left Side) -->
+    <div class="col-md-6 p-0 bg-dark">
+      <div id="imageCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+        <!-- Images -->
+        <div class="carousel-inner">
+          <div *ngFor="let img of project.images; let i = index" 
+               class="carousel-item" 
+               [ngClass]="{'active': i === 0}">
+            <img [src]="imageService.getimageProject(img.image)" 
+                 alt="Project Image" 
+                 class=" w-100 object-fit-cover" style="height: 100%;">
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content Section (Right Side) -->
+    <div class="col-md-6 p-4 bg-white" style="max-height: 800px; overflow-y: auto;">
+      <!-- Header Section -->
+      <div class="card-header text-black text-center pt-5 pb-2 mb-4" style="background: linear-gradient(90deg, #75c450bf, #8cdf73c2);">
+        <div class="d-flex gap-2 justify-content-center align-items-center">
+          <h2 class="fw-bold">{{ project.title | uppercase }}</h2>
+          <span class="">{{ project.category }}</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center px-2 mt-5 ">
+          <div class="favorite-button">
+            <button 
+              class="btn btn-outline-primary favorite-toggle fw-bold" 
+              [class.btn-primary]="isFavorited" 
+              (click)="toggleFavorite()">
+              <i class="bi" [class.bi-heart]="!isFavorited" [class.bi-heart-fill]="isFavorited"></i> 
+              {{ isFavorited ? 'Added to Favorites' : 'Add to Favorites' }}
+            </button>
+            <div class="row fw-bold ms-1">
+              {{count}} users added to favorite
+            </div>
+          </div>
+          
+          <button class="btn btn-outline-success shadow-lg text-black fw-bold " *ngIf="project.isActive" routerLink="/project/{{project.id}}/invest">
+            <i class="bi bi-currency-dollar"></i> Invest Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Creator Section -->
+       
+       <div class="border-bottom pb-3 mb-4">
+        <div class="d-flex align-items-center mb-4">
+          <img [src]="imageService.getimageUser(project.creator.image)" 
+               alt="Creator Image" 
+               class="rounded-circle border me-3" 
+               style="width: 70px; height: 70px;">
+          <div>
+            <h5 routerLink="/detail/{{project.creator.user.username}}" class="mb-1" style="cursor: pointer;">{{ project.creator.user.first_name | uppercase }} {{ project.creator.user.last_name | uppercase }}</h5>
+            <small class="text-muted fst-italic">Project Creator</small>
+          </div>
+        </div>
+        <!-- Description -->
+        <div class="mb-4">
+          <p class="text-dark h-4" >{{ project.description }}</p>
+        </div>
+       </div>
+      
+
+      <!-- Funding Progress -->
+      <div class="mb-4">
+        <h5 class="fw-bold">Funding</h5>
+        <div class="d-flex justify-content-between">
+          <span>Raised: ${{ project.raised_amount }}</span>
+          <span>Goal: ${{ project.goal_amount }}</span>
+        </div>
+        <div class="progress mt-2" style="height: 20px;">
+          <div class="progress-bar bg-success" 
+               role="progressbar" 
+               [style.width]="(project.raised_amount / project.goal_amount * 100) + '%'" 
+               [attr.aria-valuenow]="project.raised_amount" 
+               aria-valuemin="0" 
+               [attr.aria-valuemax]="project.goal_amount">
+          </div>
+        </div>
+        <div class="text-center mt-2 text-muted">
+          {{ ((project.raised_amount / project.goal_amount) * 100).toFixed(1) }}% Funded
+        </div>
+      </div>
+
+
+      <div class="container my-5">
+        <h2 class="text-center mb-4">Investment Overview</h2>
+        
+        <!-- Chart Container -->
+        <div class="row" *ngIf="project.investment && project.investment.length > 0">
+          <div class="col-md-6">
+            <canvas id="investmentChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+
+      <!-- Website Link -->
+      <div class="mb-4">
+        <h5 class="fw-bold">Website</h5>
+        <a *ngIf="project.website_link" 
+           href="{{ project.website_link }}" 
+           class="btn btn-primary shadow-sm" 
+           target="_blank">
+          <i class="bi bi-globe"></i> Visit Project Website
+        </a>
+        <p *ngIf="!project.website_link" class="text-muted fst-italic">No website link available.</p>
+      </div>
+
+      <!-- Comments Section -->
+      <div class="mb-4">
+        <h5 class="fw-bold">Comments</h5>
+        <ul class="list-group mb-3">
+          <li *ngFor="let comment of project.commentary" class="list-group-item bg-gradient bg-light">
+            <div class="d-flex align-items-center">
+              <div>
+                <div class="d-flex gap-2">
+                  <img [src]="imageService.getimageUser(comment.user.image)" width="50" height="50" class="rounded-circle">
+                  <div>
+                    <h6 class="mb-0" routerLink="/detail/{{project.creator.user.username}}" style="cursor: pointer;">
+                      {{ comment.user.user.first_name | uppercase }} {{ comment.user.user.last_name | uppercase }}
+                      <span class="text-secondary">({{comment.user.role}})</span>
+                    </h6>
+                    <small class="text-muted fst-italic">{{ comment.created_at | date:'yyyy-MM-dd HH:mm' }}</small>
+                  </div>
+                </div>
+                <div>
+                  <p class="mb-0 text-muted">{{ comment.text }}</p>
+                  <img [src]="imageService.getimageComent(comment.image)" class="w-100" alt="">
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Add Comment Form -->
+        <form>  
+          <textarea 
+            class="form-control mb-2" 
+            [(ngModel)]="newCommentText" 
+            name="newComment" 
+            placeholder="Add your comment..." 
+            rows="4">
+          </textarea> 
+          <div *ngIf="previewImage" class="position-relative mb-3" style="display: inline-block;">
+            <!-- Icône de suppression -->
+            <i 
+              class="bi bi-x-circle-fill text-danger position-absolute" 
+              style="cursor: pointer; top: -10px; left: -10px;" 
+              (click)="removeImage()">
+            </i>
+            <img [src]="previewImage" alt="Selected Image" class="img-thumbnail" width="150">
+          </div> 
+          <div class="d-flex gap-2 align-items-center">
+            <label for="comment-image" style="cursor: pointer;">
+              <i class="bi bi-file-earmark-image text-success h2"></i>
+              <input 
+                type="file" 
+                hidden 
+                id="comment-image" 
+                accept="image/*" 
+                (change)="onFileSelected($event)">
+            </label>
+            <button [disabled]="sendComment" class="btn btn-success w-100" type="submit"  (click)="addComment()" >
+              <i class="bi bi-send"></i> Submit Comment
+            </button>
+          </div>
+        </form>
+        
+        
+
+      <!-- Footer Section -->
+      <div class="text-center bg-light py-3 mt-5">
+        <button class="btn btn-success me-2" *ngIf="project.isActive" routerLink="/project/{{project.id}}/invest">
+          <i class="bi bi-currency-dollar"></i> Invest Now
+        </button>
+        <button class="btn btn-danger" *ngIf="!project.isActive" disabled>
+          <i class="bi bi-x-circle"></i> Project Closed
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

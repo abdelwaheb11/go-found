@@ -1,0 +1,124 @@
+<div class="container my-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white text-center py-5">
+        <h1 class="mb-0 fw-bold">Update a Project</h1>
+      </div>
+      <div class="card-body">
+        <form #projectForm="ngForm">
+          <!-- Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input 
+              type="text" 
+              id="title" 
+              class="form-control" 
+              name="title" 
+              [(ngModel)]="project.title" 
+               required
+              placeholder="Enter the project title">
+            <div *ngIf="projectForm.submitted && !project.title" class="text-danger">
+              Title is required.
+            </div>
+          </div>
+  
+          <!-- Category -->
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select 
+              id="category" 
+              class="form-select" 
+              name="category" 
+              [(ngModel)]="project.category" 
+              required>
+              <option value="0" selected disabled>Select a category</option>
+              <option *ngFor="let category of categories" [value]="category.value">{{ category.label }}</option>
+            </select>
+            <div *ngIf="projectForm.submitted && project.category==='0'" class="text-danger">
+              Category is required.
+            </div>
+          </div>
+  
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea 
+              id="description" 
+              class="form-control" 
+              name="description" 
+              [(ngModel)]="project.description" 
+              rows="4" 
+              placeholder="Enter a project description"></textarea>
+          </div>
+  
+          <!-- Goal Amount -->
+          <div class="mb-3">
+            <label for="goalAmount" class="form-label">Goal Amount</label>
+            <input 
+              type="number" 
+              id="goalAmount" 
+              class="form-control" 
+              name="goalAmount" 
+              [(ngModel)]="project.goal_amount" 
+              required 
+              placeholder="Enter the funding goal amount">
+            <div *ngIf="projectForm.submitted && !project.goal_amount" class="text-danger">
+              Goal amount is required.
+            </div>
+          </div>
+  
+          <!-- Website Link -->
+          <div class="mb-3">
+            <label for="websiteLink" class="form-label">Website Link (Optional)</label>
+            <input 
+              type="url" 
+              id="websiteLink" 
+              class="form-control" 
+              name="websiteLink" 
+              [(ngModel)]="project.website_link" 
+              placeholder="Enter the project website link">
+          </div>
+          <div *ngIf="images.length > 0" class="image-gallery mt-3">
+            <div *ngFor="let img of images" class="image-container">
+              <img [src]="imageservice.getimageProject(img.image)" alt="Preview" class="image-thumbnail">
+              <button class="btn btn-danger btn-sm remove-button fw-bold" (click)="removeImg(img.id)">
+                &times;
+              </button>
+            </div>
+          </div>
+          <!-- Images Upload Section -->
+          <div class="my-3">
+            <button type="button" class="btn btn-primary" (click)="imageInput.click()">
+              Select Images
+            </button>
+            <input
+              #imageInput
+              type="file"
+              class="form-control d-none"
+              multiple
+              accept="image/*"
+              (change)="onFilesChange($event)">
+          </div>
+          
+          <!-- Display selected images -->
+          <div *ngIf="selectedFiles.length > 0" class="image-gallery mt-3">
+            <div *ngFor="let file of selectedFiles; let i = index" class="image-container">
+              <img [src]="file.preview" alt="Preview" class="image-thumbnail">
+              <button class="btn btn-danger btn-sm remove-button fw-bold" (click)="removeFile(i)">
+                &times;
+              </button>
+            </div>
+          </div>
+          
+          
+  
+          <!-- Submit Button -->
+          <div class="text-end">
+            <button type="submit" class="btn btn-success" (click)="onSubmit()">
+              Update Project
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
