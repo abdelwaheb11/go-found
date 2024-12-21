@@ -4,7 +4,6 @@ import { Project } from '../models/project.model';
 import { ActivatedRoute, Route } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { ImageService } from '../services/image.service';
-import { Chart } from 'chart.js';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -127,53 +126,5 @@ export class ProjectdetailsComponent implements OnInit {
         
   
       // Create Chart
-      new Chart('investmentChart', {
-        type: 'line',
-        data: {
-          labels: dates,
-          datasets: [
-            {
-              label: 'Invested Amount (USD)',
-              data: investedAmounts,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              fill: false,
-              tension: 0.1
-            },
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Investment Progress Over Time'
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false
-            }
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Date'
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Amount (USD)'
-              },
-              beginAtZero: true
-            }
-          }
-        }
-      });
-
-      }
-      
-      
-      
-    }
+      }}
 }
