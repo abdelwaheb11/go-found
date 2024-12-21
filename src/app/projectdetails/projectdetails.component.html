@@ -94,20 +94,7 @@
           {{ ((project.raised_amount / project.goal_amount) * 100).toFixed(1) }}% Funded
         </div>
       </div>
-
-
-      <div class="container my-5">
-        <h2 class="text-center mb-4">Investment Overview</h2>
         
-        <!-- Chart Container -->
-        <div class="row" *ngIf="project.investment && project.investment.length > 0">
-          <div class="col-md-6">
-            <canvas id="investmentChart"></canvas>
-          </div>
-        </div>
-      </div>
-      
-
       <!-- Website Link -->
       <div class="mb-4">
         <h5 class="fw-bold">Website</h5>
