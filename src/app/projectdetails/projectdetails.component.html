@@ -48,7 +48,7 @@
             </div>
           </div>
           
-          <button class="btn btn-outline-success shadow-lg text-black fw-bold " *ngIf="project.isActive" routerLink="/project/{{project.id}}/invest">
+          <button class="btn btn-outline-success shadow-lg text-black fw-bold " routerLink="/project/{{project.id}}/invest">
             <i class="bi bi-currency-dollar"></i> Invest Now
           </button>
         </div>
@@ -171,12 +171,12 @@
 
       <!-- Footer Section -->
       <div class="text-center bg-light py-3 mt-5">
-        <button class="btn btn-success me-2" *ngIf="project.isActive" routerLink="/project/{{project.id}}/invest">
+        <button class="btn btn-success me-2"  routerLink="/project/{{project.id}}/invest">
           <i class="bi bi-currency-dollar"></i> Invest Now
         </button>
-        <button class="btn btn-danger" *ngIf="!project.isActive" disabled>
+       <!--  <button class="btn btn-danger" *ngIf="!project.isActive" disabled>
           <i class="bi bi-x-circle"></i> Project Closed
-        </button>
+        </button>-->
       </div>
     </div>
   </div>
